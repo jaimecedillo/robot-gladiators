@@ -131,15 +131,11 @@ var shop = function () {
     switch (shopOptionPrompt) {
         case 'refill':
         case 'REFILL':
-            window.alert("Refilling player's health by 20 for 7 dollars.");
-            playerInfo.health += 20;
-            playerInfo.money -= 7;
+            playerInfo.refillHealth();
             break;
         case 'upgrade':
         case 'UPGRADE':
-            window.alert("Upgrading player's attack by 6 for 7 dollars.");
-            playerInfo.attack += 6;
-            playerInfo.money -= 7;
+            playerInfo.upgradeAttack();
             break;
         case 'leave':
         case 'LEAVE':
@@ -165,6 +161,26 @@ var playerInfo = {
         this.health = 100;
         this.money = 10;
         this.attack = 10;
+    }, // comma!
+    refillHealth: function () {
+        if (this.money > 7) {
+            window.alert("Refilling player's health by 20 for 7 dollars.");
+            this.health += 20;
+            this.money -= 7;
+        }
+        else {
+            window.alert("You don't have enough money!");
+        }
+    }, // comma!
+    upgradeAttack: function () {
+        if (this.money >= 7) {
+            window.alert("Upgrading player's attack by 6 for 7 dollars.");
+            this.attack += 6;
+            this.money -= 7;
+        }
+        else {
+            window.alert("You don't have enough money!");
+        }
     }
 };
 
@@ -182,4 +198,5 @@ var enemyInfo = [
         attack: randomNumber(10, 14)
     }
 ];
+
 startGame();
