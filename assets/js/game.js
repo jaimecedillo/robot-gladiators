@@ -32,54 +32,30 @@ var startGame = function () {
 // function to end the entire game
 var endGame = function () {
     window.alert("The game has now ended. Let's see how you did!");
+    // check localStorage for high score, if it's not there, use 0
+    var highScore = localStorage.getItem("highscore");
+    if (highScore === null) {
+        highScore = highScore || 0;
+    }
+    // if player have more money than the high score, player has new high score!
+    if (playerInfo.money > highScore) {
+        localStorage.setItem("highscore", playerInfo.money);
+        localStorage.setItem("name", playerInfo.name);
 
-    // if player is still alive, player wins!
-    if (playerInfo.health > 0) {
-        window.alert("Great job, you've survived the game! You now have a score of" + playerInfo.money + '.');
-    } else {
-        window.alert("You've lost your robot in battle!");
+        alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
+    }
+    else {
+        alert(playerInfo.name + " did not beat the high score of " + highScore + ". Maybe next time!");
     }
 
     // ask player if they'd like to play again
-    var playAgainConfirm = window.confirm('Would you like to play again?');
+    var playAgainConfirm = window.confirm("Would you like to play again?");
 
     if (playAgainConfirm) {
         startGame();
-    } else {
-        window.alert('Thank you for playing Battlebots! Come back soon!');
     }
-};
-
-var fightOrSkip = function () {
-    // ask player if they'd like to fight or skip using fightOrSkip function
-    var promptFight = window.prompt('Would you like FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
-
-    if (promptFight === "" || promptFight === null) {
-        window.alert("You need to provide a valid answer! Please try again.");
-        return fightOrSkip();
-    }
-    promptFight = promptFight.toLowerCase();
-    // if player picks "skip" confirm and then stop the loop
-    if (promptFight === "skip" || promptFight === "SKIP") {
-        // confirm player wants to skip
-        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-
-        // if yes (true), leave fight
-        if (confirmSkip) {
-            window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
-            // subtract money from playerMoney for skipping
-            playerInfo.playerMoney = playerInfo.money - 10;
-            shop();
-        }
-        // if yes (true), leave fight
-        if (confirmSkip) {
-            window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
-            // subtract money from playerMoney for skipping, but don't let them go into the negative
-            playerInfo.money = Math.max(0, playerInfo.money - 10);
-
-            // return true if player wants to leave
-            return true;
-        }
+    else {
+        window.alert("Thank you for playing Robot Gladiators! Come back soon!");
     }
 };
 // fight function (now with parameter for enemy's name)
